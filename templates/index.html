@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
-
     <style>
         .menu-style2 > ul > li > a {
             padding: 0;
@@ -26,7 +24,7 @@
                     <div class="col-auto">
                         <nav class="main-menu mobile-menu-active menu-style2">
                             <ul>
-                                
+
                                 <li class="menu-item-has-children">
                                     <a href="shop.html">Shop</a>
                                     <ul class="sub-menu">
@@ -57,7 +55,7 @@
                                 <li class="mega-menu-wrap menu-item-has-children">
                                     <a href="#">All</a>
                                     <ul class="mega-menu">
-                                        
+
                                         <li><a href="#">About</a>
                                             <ul>
                                                 <li><a href="index-8.html">Home Style 8</a></li>
@@ -100,13 +98,11 @@
                         <div class="header-buttons">
                             <button type="button" class="searchBoxTggler"><i class="far fa-search"></i></button>
                             <a href="{% url 'wishList' %}"><i class="fal fa-heart"></i></a>
-                            <button class="sideMenuToggler has-badge" type="button"><i class="fal fa-shopping-cart"></i><span class="badge">0</span></button>
+                            <a href="{% url 'mycart' %}"><i class="fal fa-shopping-cart"></i><span class="badge">0</span><</a> >
                             {% if request.user.is_authenticated%}
                             <a href="#">{{request.user.username}}</a>
                             {% endif %}
                         </div>
-                        
-                        
                     </div>
                     <div class="col-auto d-block d-lg-none">
                         <button type="button" class="vs-menu-toggle "><i class="far fa-bars"></i></button>
@@ -115,59 +111,32 @@
             </div>
         </div>
     </header>
-    
-    
     <div class="  ">
-        
         <div class="vs-hero-carousel hero-layout6" data-globalbgimage="{% static 'assets/img/nature.jpg' %}" data-height="810" data-container="1900" data-slidertype="responsive">
-
             {% for banner in  banners %}
-            <div class="ls-slide" data-ls="duration:12000; transition2d:5; kenburnsscale:1.2;">
-                <p style="top:405px; left:375px; font-weight:700; background-size:inherit; background-position:inherit; font-size:65px; color:#fcd55c; font-family:'Advent Pro', sans-serif;" class="ls-l ls-hide-tablet ls-hide-phone" data-ls="offsetxin:-200; durationin:1500; easingin:easeOutQuint;">Organic Plants and</p>
-                <div style="top:611px; left:375px; background-size:inherit; background-position:inherit;" class="ls-l ls-hide-tablet ls-hide-phone" data-ls="offsetyin:100; durationin:1500; delayin:800; easingin:easeOutQuint; offsetyout:200; durationout:1500; easingout:easeOutQuint;">
-
-                    <a href="shop.html" class="vs-btn style5 ls-btn">Start Shopping<i class="far fa-angle-right"></i></a>
-                </div>
-
-                <img width="658" height="543" src="{{ banner.img.url }}" class="ls-l ls-hide-deskto" alt="image" style="top: 180px; left:916px; background-size:inherit; background-position:inherit; width:800px; height:600px;">
-
-                
-                <a class="ls-l ls-hide-tablet ls-hide-phone" href="#1" target="_self" data-ls="hover:true; hoverbgcolor:#76a713; hovercolor:#ffffff; static:forever;">
-                    <p style='top:420px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#000000; background-color:#ffffff;' class="">1</p>
-                </a>
-                <a class="ls-l ls-hide-tablet ls-hide-phone" href="#2" target="_self" data-ls="hover:true; hoverbgcolor:#76a713; hovercolor:#ffffff; static:forever;">
-                    <p style='top:470px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#000000; background-color:#ffffff;' class="">2</p>
-                </a>
-                <a class="ls-l ls-hide-tablet ls-hide-phone" href="#3" target="_self" data-ls="hover:true; hoverbgcolor:#76a713; hovercolor:#ffffff; static:forever;">
-                    <p style='top:520px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#000000; background-color:#ffffff;' class="">3</p>
-                </a>
-                <a class="ls-l ls-hide-tablet ls-hide-phone" href="#4" target="_self" data-ls="hover:true; hoverbgcolor:#76a713; hovercolor:#ffffff; static:forever;">
-                    <p style='top:570px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#000000; background-color:#ffffff;' class="">4</p>
-                </a>
-                <a class="ls-l ls-hide-tablet ls-hide-phone" href="#5" target="_self" data-ls="hover:true; hoverbgcolor:#76a713; hovercolor:#ffffff; static:forever;">
-                    <p style='top:620px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#000000; background-color:#ffffff;' class="">5</p>
-                </a>
-            </div>
-            {% endfor %}
-
-        </div>
+           <div class="ls-slide" data-ls="duration:12000; transition2d:5; kenburnsscale:1.2;" style="background-color: #f0f0f0;">
+    <p style="top:405px; left:375px; font-weight:700; background-size:inherit; background-position:inherit; font-size:65px; color:#fcd55c; font-family:'Advent Pro', sans-serif;" class="ls-l ls-hide-tablet ls-hide-phone" data-ls="offsetxin:-200; durationin:1500; easingin:easeOutQuint;">{{ banner.title }}</p>
+    <div style="top:611px; left:375px; background-size:inherit; background-position:inherit;" class="ls-l ls-hide-tablet ls-hide-phone" data-ls="offsetyin:100; durationin:1500; delayin:800; easingin:easeOutQuint; offsetyout:200; durationout:1500; easingout:easeOutQuint;">
+        <a href="shop.html" class="vs-btn style5 ls-btn">Start Shopping<i class="far fa-angle-right"></i></a>
     </div>
-    
-    
-    <section class="space-top" style="padding-top: 30px;">
-        <div class="container">
-            <span class="sub-title4" style="font-size: 60px; font-weight: 700; line-height: 1.1;">Categories</span>
-            <div class="row vs-carousel" data-slide-show="3" id="catboxSlide4645">
-                {% for category in categories %}
-                <div class="col-xl-4">
-                    <div class="cat-box">
-                        <div class="cat-box__img">
-                            <img src="{{category.img.url}}" alt="Category image" style="height: 300px; width: 400px;">
-                        </div>
-                        <h3 class="cat-box__title"><a href="shop.html">{{category.name}}</a></h3>
-                        <p class="cat-box__text">{{category.title}}</p>
-                    </div>
-                </div>
+    <img width="658" height="543" src="{{ banner.img.url }}" class="ls-l ls-hide-deskto" alt="image" style="top: 180px; left:916px; background-size:inherit; background-position:inherit; width:800px; height:600px;">
+
+    <a class="ls-l ls-hide-tablet ls-hide-phone" href="#1" target="_self" data-ls="hover:true; hoverbgcolor:#007bff; hovercolor:#ffffff; static:forever;">
+        <p style='top:420px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#ffffff; background-color:#007bff;' class="">1</p>
+    </a>
+    <a class="ls-l ls-hide-tablet ls-hide-phone" href="#2" target="_self" data-ls="hover:true; hoverbgcolor:#007bff; hovercolor:#ffffff; static:forever;">
+        <p style='top:470px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#ffffff; background-color:#007bff;' class="">2</p>
+    </a>
+    <a class="ls-l ls-hide-tablet ls-hide-phone" href="#3" target="_self" data-ls="hover:true; hoverbgcolor:#007bff; hovercolor:#ffffff; static:forever;">
+        <p style='top:520px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#ffffff; background-color:#007bff;' class="">3</p>
+    </a>
+    <a class="ls-l ls-hide-tablet ls-hide-phone" href="#4" target="_self" data-ls="hover:true; hoverbgcolor:#007bff; hovercolor:#ffffff; static:forever;">
+        <p style='top:570px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#ffffff; background-color:#007bff;' class="">4</p>
+    </a>
+    <a class="ls-l ls-hide-tablet ls-hide-phone" href="#5" target="_self" data-ls="hover:true; hoverbgcolor:#007bff; hovercolor:#ffffff; static:forever;">
+        <p style='top:620px; left:1760px; text-align:center; font-weight:700; background-size:inherit; background-position:inherit; font-size:16px; font-family:"Lato", sans-serif; line-height:40px; width:40px; height:40px; border-radius:100%; color:#ffffff; background-color:#007bff;' class="">5</p>
+    </a>
+</div>
                 {% endfor %}
             </div>
             <div class="row text-center justify-content-around align-items-center">
@@ -249,9 +218,6 @@
             </div>
         </div>
     </div>
-      
-    
-
     <section class="position-relative space-top space-md-bottom" style="padding-top: 40px;">
         <div class="sec-bg4" data-bg-src="assets/img/shape/bg-00779.png"></div>
         <div class="container">
@@ -286,8 +252,6 @@
             </div>
         </div>
     </section>
-
-
     <section class="  space" data-bg-src="{% static 'assets/img/bg/newsletter-bg-1-2.jpg' %}">
         <div class="container">
             <div class="newsletter-style2" data-bg-src="{% static 'assets/img/shape/newsletter-bg-1-1.png' %}">

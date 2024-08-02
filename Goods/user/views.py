@@ -5,8 +5,8 @@ from Goods import models
 
 
 def myCart(request):
-    cart = models.Cart.objects.get(author=request.user, is_active=True)
-    cartProduct = models.CartProduct.objects.filter(cart= cart)
+    cart,_ = models.Cart.objects.get_or_create(author=request.user, is_active=True)
+    cartProduct = models.CartProduct.objects.filter(cart=cart)
     context = {}
     context['cart']=cart
     context['cartpro']=cartProduct
@@ -15,27 +15,25 @@ def myCart(request):
 
 def addProductToCart(request, id):
     product_id = id
-    if request.method == 'POST':
-       quantity = int(request.POST['quantity']) 
+    if request.method == 'POST' and 'quantity' in request.POST:
+        quantity = int(request.POST['quantity'])
     else:
         quantity = 1
     product = models.Product.objects.get(id=product_id)
     cart, _ = models.Cart.objects.get_or_create(author=request.user, is_active=True)
-    try:
-        cart_product = models.CartProduct.objects.get(cart=cart, product_id=product_id)
-        cart_product.quantity += quantity
-        cart_product.save()
-    except models.CartProduct.DoesNotExist:
-        cart_product = models.CartProduct.objects.create(
-            product=product, 
-            cart=cart,
-            quantity= quantity
-        )
-    if quantity and product.price:
-        cart_product.total_price = quantity * float(product.price)
-        cart_product.save()
-    return redirect('mycart')
 
+    cart_product, created = models.CartProduct.objects.get_or_create(
+        cart=cart,
+        product_id=product_id,
+        defaults={'quantity': quantity, 'total_price': quantity * float(product.price) if product.price else 0}
+    )
+
+    if not created:
+        cart_product.quantity += quantity
+        cart_product.total_price = cart_product.quantity * float(product.price) if product.price else 0
+        cart_product.save()
+
+    return redirect('mycart')
 
 
 def substruct(request, id):
@@ -92,16 +90,18 @@ def CreateOrder(request, id):
 
 
 def wishList(request):
-    wish_list = models.WishList.objects.filter(user=request.user)
-    data = []
-    for wish in wish_list:
-        a = models.ProductImg.objects.get(product = wish.product)
-        data.append(a)
-    context = {}
-    combined = zip(wish_list, data)
-    context['combined']= combined
+    wish_list = models.WishList.objects.filter(user=request.user).select_related('product')
+    product_ids = [wish.product.id for wish in wish_list]
+    product_images = models.ProductImg.objects.filter(product_id__in=product_ids).select_related('product')
+    product_images_dict = {img.product.id: img for img in product_images}
+    combined = [(wish, product_images_dict.get(wish.product.id)) for wish in wish_list]
+
+    context = {
+        'combined': combined
+    }
 
     return render(request, 'user/wishList.html', context)
+
 
 
 
@@ -125,6 +125,14 @@ def userSearch(request):
         result = models.Product.objects.filter(name=q)
         return render(request, 'user/query.html', {'result':result})
     return redirect('/')
+
+
+
+
+
+
+
+
 
 """
 return redirect(request.path)
