@@ -57,4 +57,4 @@ def deleteEnter(request, id):
     models.ProductEnter.objects.get(id=id).delete()
     return redirect('listEnter')
 
-    "C:\najot talim\oy7\Market_1\Goods"
+   

@@ -27,6 +27,10 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     description = models.TextField()
 
+
+
+
+
     def __str__(self):
         return self.name
 
@@ -34,6 +38,13 @@ class Product(models.Model):
 class ProductImg(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     img = models.ImageField(upload_to='product-img')
+
+
+    @property
+    def prodoct(self):
+        return Category.objects.filter(category=self)
+
+
 
     def __str__(self):
         return self.product.name
@@ -113,3 +124,17 @@ class WishList(models.Model):
 
     def __str__(self):
         return f"{self.user.username}, {self.product.name}"
+
+
+class Info(models.Model):
+    phone_number = models.CharField(max_length=13)
+    location = models.CharField(max_length=255)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.phone_number
+
+
+
+
+

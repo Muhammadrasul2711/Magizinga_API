@@ -1,15 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Banner
+from Goods.models import Banner
 
 
 def banner_list(request):
     banners = Banner.objects.all()
-    return render(request, 'Banner/bannerlist.html', {'banners': banners})
+    return render(request, 'back-office/Banner/banner_list.html', {'banners': banners})
 
 
 def banner_detail(request, id):
     banner = get_object_or_404(Banner, id=id)
-    return render(request, 'Banner/banner_detail.html', {'banner': banner})
+    return render(request, 'back-office/Banner/banner_detail.html', {'banner': banner})
 
 
 def banner_create(request):
@@ -22,7 +22,7 @@ def banner_create(request):
         banner = Banner(title=title, sub_title=sub_title, img=img, is_active=is_active)
         banner.save()
         return redirect('banner_detail', id=banner.id)
-    return render(request, 'Banner/BannerForm.html')
+    return render(request, 'back-office/Banner/BannerForm.html')
 
 
 def banner_update(request, id):
@@ -36,7 +36,7 @@ def banner_update(request, id):
 
         banner.save()
         return redirect('banner_detail', id=banner.id)
-    return render(request, 'Banner/BannerForm.html', {'banner': banner})
+    return render(request, 'back-office/Banner/BannerForm.html', {'banner': banner})
 
 
 def banner_delete(request, id):
@@ -44,4 +44,4 @@ def banner_delete(request, id):
     if request.method == "POST":
         banner.delete()
         return redirect('banner_list')
-    return render(request, 'Banner/banner_delled.html', {'banner': banner})
+    return render(request, 'back-ofice/Banner/banner_delled.html', {'banner': banner})
