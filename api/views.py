@@ -1,13 +1,16 @@
+from django.forms import models
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
-from Goods.models import Category , Product
+from Goods.models import Category , Product,Banner,ProductImg, Cart,CartProduct,Order,ProductEnter,WishList, Info
+
+
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login
-from .Serializer import CategorySerializer,ProductSerializer
+from .Serializer import CategorySerializer,ProductSerializer,BannerSerializer,CartSerializer,CartProductSerializer,CartProductSerializer,ProductEnterSerializer,WishlistSerializer,InfoSerializer,OrderSerializer
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -62,8 +65,6 @@ def logout(request):
     request.user.auth_token.delete()
     return Response(status=204)
 
-# =================================================================
-
 
 
 class ProductCreateView(APIView):
@@ -97,3 +98,131 @@ class AddToCartView(APIView):
         cart_product.total_price = cart_product.quantity * product.price
         cart_product.save()
         return Response(status=status.HTTP_200_OK)
+
+
+"vazifa_4"
+
+class BannerListView(APIView):
+    banner=Banner.objects.all()
+    serializer_class=BannerSerializer
+
+
+class BannerCreateView(generics.CreateAPIView):
+    banner = Banner.objects.all()
+    serializer_class=BannerSerializer
+
+class BannerRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    banner = Banner.objects.all()
+    serializer_class=BannerSerializer
+
+class CartListView(generics.ListAPIView):
+    queryset=models.Cart.objects.all()
+    serializer_class=CartSerializer
+
+class CartCreateView(generics.CreateAPIView):
+    queryset =models.Cart.objects.all()
+    serializer_class=CartSerializer
+
+
+class CartRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Cart.objects.all()
+    serializer_class=CartSerializer
+
+class CartProductListView(generics.ListAPIView):
+    queryset=CartProduct.objects.all()
+    serializer_class=CartProductSerializer
+
+class CartProductCreateView(generics.CreateAPIView):
+    queryset=CartProduct.objects.all()
+    serializer_class=CartProductSerializer
+
+class CartProductRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=CartProduct.objects.all()
+    serializer_class=CartProductSerializer
+
+
+class OrderListView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class=OrderSerializer
+
+
+class OrderCreateView(generics.CreateAPIView):
+    queryset=Order.objects.all()
+    serializer_class=OrderSerializer
+
+
+class OrderRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Order.objects.all()
+    serializer_class=OrderSerializer
+
+
+class ProductEnterListView(generics.ListAPIView):
+    queryset = ProductEnter.objects.all()
+    serializer_class=ProductEnterSerializer
+
+
+class ProductEnterCreateView(generics.CreateAPIView):
+    queryset = ProductEnter.objects.all()
+    serializer_class=ProductEnterSerializer
+
+
+class ProductEnterRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=ProductEnter.objects.all()
+    serializer_class=ProductEnterSerializer
+
+
+class WishListView(generics.ListAPIView):
+    queryset=WishList.objects.all()
+    serializer_class=WishlistSerializer
+
+
+class WishListCreateView(generics.CreateAPIView):
+    queryset = WishList.objects.all()
+    serializer_class=WishlistSerializer
+
+
+class WishListRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=WishList.objects.all()
+    serializer_class=WishlistSerializer
+
+
+class InfoListView(APIView):
+    queryset=Info.objects.all()
+    serializer_class=InfoSerializer
+
+
+class InfoCreateView(APIView):
+    def post(self,request,*args,**kwargs):
+        serializer=InfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class InfoDetailView(APIView):
+    def get(self,request,id ,*args,**kwargs):
+        info=Info.objects.get(Info,id=id)
+        serializer=InfoSerializer( info , many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+class InfoRedirectView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Info.objects.all()
+    serializer_class=InfoSerializer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
